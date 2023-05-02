@@ -171,9 +171,17 @@ static int get_fd(char **file_name, png_bytepp image)
 				}
 				bzero(new_file, new_length);
 				char *extension = strrchr(*file_name, '.'); // pointer to file ext
-				memcpy(new_file, *file_name, extension - *file_name);
-				memcpy(&new_file[extension - *file_name], "(copy)", 6);
-				memcpy(&new_file[extension - *file_name + 6], extension, length - strlen(extension));
+				if (!extension)
+				{
+					snprintf(new_file, new_length, "%s(copy)", *file_name);
+				}
+				else
+				{
+					size_t prefix_length = extension - *file_name;
+					memcpy(new_file, *file_name, prefix_length);
+					memcpy(&new_file[prefix_length], "(copy)", 6);
+					memcpy(&new_file[prefix_length + 6], extension, strlen(extension));
+				}
 
 				*file_name = new_file;
 				fd = open(*file_name, O_WRONLY | O_CREAT | O_APPEND | O_EXCL, 0755);
