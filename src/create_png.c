@@ -25,7 +25,7 @@ void create_png(png_bytepp image, char *image_name)
 	png_infop info_ptr = png_create_info_struct(png_ptr);
 	if (!info_ptr)
 	{
-		png_destroy_read_struct(&png_ptr, NULL, NULL);
+		png_destroy_write_struct(&png_ptr, NULL);
 		abort_("[read_png_file] png_create_info_struct failed");
 		complete(image, NULL, fp, IMAGE_HEIGHT - 1, 0, 1);
 	}
@@ -35,6 +35,6 @@ void create_png(png_bytepp image, char *image_name)
 	png_write_image(png_ptr, image);
 	png_write_end(png_ptr, NULL);
 
-	png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
+	png_destroy_write_struct(&png_ptr, &info_ptr);
 	fclose(fp);
 }

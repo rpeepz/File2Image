@@ -182,7 +182,7 @@ static int get_fd(char **file_name, png_bytepp image)
 					memcpy(&new_file[prefix_length], "(copy)", 6);
 					memcpy(&new_file[prefix_length + 6], extension, strlen(extension));
 				}
-
+				free(*file_name);
 				*file_name = new_file;
 				fd = open(*file_name, O_WRONLY | O_CREAT | O_APPEND | O_EXCL, 0755);
 			}
@@ -244,20 +244,26 @@ void decode(void)
 					for (int y = 0; y < f2i._height; y++)
 					{
 						free(image[y]);
+						image[y] = NULL;
 					}
 					free(image);
+					image = NULL;
 					snprintf(&f2i.filename[index], strlen(&f2i.filename[index]) + 1, "%d.png", loops + 1);
 					image = read_png();
 				}
 			}
 			if (multi == true)
+			{
 				free(f2i.filename);
+				f2i.filename = NULL;	
+			}
 		}
 		close(fd);
 		printf("Success: created %s\n", new_file);
-		free(new_file);
 	}
 
+	free(new_file);
+	new_file = NULL;
 	for (int y = 0; y < f2i._height; y++)
 	{
 		free(image[y]);
