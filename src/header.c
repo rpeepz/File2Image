@@ -41,11 +41,14 @@ void header_encode(void)
 	bzero(f2i.header, HEADERSIZE);
 	memcpy(f2i.header, signature, sizeof(signature));
 	memcpy(f2i.header + sizeof(signature), f2i.filename, len);
+	memcpy(f2i.header + (HEADERSIZE - (sizeof(f2i.filesize) + sizeof(f2i.filemode))), (void*)&f2i.filemode, sizeof(f2i.filemode));
 	memcpy(f2i.header + (HEADERSIZE - sizeof(f2i.filesize)), (void*)&f2i.filesize, sizeof(f2i.filesize));
 }
 
 char *header_decode(png_bytepp image)
 {
+	uint8_t *ptr = NULL;
+
 	// copy header data
 	bzero(f2i.header, HEADERSIZE);
 	memcpy(f2i.header, *image, HEADERSIZE);
@@ -62,10 +65,17 @@ char *header_decode(png_bytepp image)
 	bzero(file_name, sizeof(*file_name));
 	memcpy(file_name, f2i.header + sizeof(signature), HEADERSIZE - sizeof(f2i.filesize) - sizeof(signature));
 
+	// get filemode from header
+	ptr = (uint8_t*)f2i.header + (HEADERSIZE - (sizeof(f2i.filesize) + sizeof(f2i.filemode)));
+	mode_t mode;
+	for (size_t i = 0; i < sizeof(mode); i++)
+		memcpy((char*)(&mode)+i, &ptr[i], 1);
+	f2i.filemode = mode;
+
 	// get filesize from header
-	uint8_t *ptr = (uint8_t*)f2i.header+(HEADERSIZE - sizeof(f2i.filesize));
+	ptr = (uint8_t*)f2i.header + (HEADERSIZE - sizeof(f2i.filesize));
 	off_t retrieve;
-	for (int i = 0; i < 8; i++)
+	for (size_t i = 0; i < sizeof(retrieve); i++)
 		memcpy((char*)(&retrieve)+i, &ptr[i], 1);
 	f2i.filesize = retrieve;
 	return file_name;

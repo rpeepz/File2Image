@@ -149,7 +149,7 @@ void encode(void)
 
 static int get_fd(char **file_name, png_bytepp image)
 {
-	int fd = open(*file_name, O_WRONLY | O_CREAT | O_APPEND | O_EXCL, 0755);
+	int fd = open(*file_name, O_WRONLY | O_CREAT | O_APPEND | O_EXCL, f2i.filemode);
 	if (fd == -1)
 	{
 		int error = errno;

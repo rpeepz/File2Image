@@ -54,6 +54,7 @@ typedef struct	s_file2image {
 	int			fd;
 	char		*filename;
 	off_t		filesize;
+	mode_t	filemode;
 	uint8_t		header[HEADERSIZE];
 	int			_width;
 	int			_height;

@@ -21,6 +21,7 @@ void get_filesize(void)
 		complete(NULL, NULL, NULL, 0, 0, 1);
   }
 	f2i.filesize = fileStat.st_size;
+	f2i.filemode = fileStat.st_mode;
 }
 
 void open_file(void)
