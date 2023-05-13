@@ -8,7 +8,7 @@
 #ifndef _FILE2IMAGE_H_
 # define _FILE2IMAGE_H_
 
-# define VERSION "v1.1"
+# define VERSION "v1.1.1"
 
 # include <unistd.h>
 # include <errno.h>
@@ -21,11 +21,6 @@
 # include <stdint.h>
 # include <stdlib.h>
 # include <stdarg.h>
-// UNUSED
-// # include <libavcodec/avcodec.h>
-// # include <libavformat/avformat.h>
-// # include <libavformat/avformat.h>
-// # include <libswscale/swscale.h>
 # include <png.h>
 
 # define _RES_CRAP	20  // 320 x 180
@@ -47,21 +42,6 @@
 # define _PIXEL_SIZE	((PIXEL_SCALE <= 1) ? 1 : ipow(2, PIXEL_SCALE))
 # define PIXEL_COUNT	IMAGE_WIDTH*IMAGE_HEIGHT/_PIXEL_SIZE
 # define HEADERSIZE		144
-// UNUSED
-// # define FRAMERATE 5
-// # define _BITRATE_UHD_60	352000
-// # define _BITRATE_UHD_30	160000
-// # define _BITRATE_SD			8000
-// 2160p (4K) at 60fps: 44-56 Mbps
-// 2160p (4K) at 30fps: 20-45 Mbps
-// 1440p (2K) at 60fps: 16 Mbps
-// 1440p (2K) at 30fps: 8 Mbps
-// 1080p at 60fps: 12 Mbps
-// 1080p at 30fps: 6 Mbps
-// 720p at 60fps: 7.5 Mbps
-// 720p at 30fps: 5 Mbps
-// 480p at 30fps: 2.5 Mbps
-// 360p at 30fps: 1 Mbps
 
 # define INFO						69
 # define FILE_TO_IMAGE	1 // -e
@@ -72,6 +52,8 @@
 # define VIDEO_TO_FILE	6 // -r
 # define USAGE "usage: $> File2Image [ -e | -d | -c | -m | -t | -r ] [ \033[4mfile\033[0m ]\n"
 # define DETAILS "-e : ENCODE a \033[4mfile\033[0m to f2i Image file\n-d : DECODE a \033[4mf2i Image file\033[0m to its original file\n-c : CONVERT a \033[4mf2i Image file\033[0m to f2i Video file\n-m : MAP a \033[4mf2i Video file\033[0m to f2i Image file\n-t : TRANSFORM a \033[4mfile\033[0m to f2i Video file\n-r : REVERT a \033[4mf2i Video file\033[0m to its original file\n-v : Version Info\n"
+
+// unable to upload to youtube
 # define F2I_VIDEO_ENCODE_OPTIONS "-c:v libx264rgb -preset ultrafast -crf 0 -pix_fmt rgb24"
 
 int				ipow(int base, int exp);
@@ -80,6 +62,8 @@ void			get_filesize(void);
 void			create_png(png_bytepp image, char *image_name);
 void			convert_image_to_video(void);
 void			map_video_to_image(void);
+void			transform_file_to_video(void);
+void			revert_video_to_file(void);
 png_byte		**read_png(void);
 void			header_encode(void);
 char			*header_decode(png_bytepp image);

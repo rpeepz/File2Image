@@ -7,8 +7,6 @@
 
 #include "File2Image.h"
 
-// TODO
-// FOUND BUG WHEN USING UHD RESOLUTION
 void encode(void)
 {
 	int y;
@@ -16,7 +14,9 @@ void encode(void)
 	off_t pixelsNeeded = (f2i.filesize / (off_t)3) + !!(f2i.filesize % (off_t)3) + HEADERSIZE;
 
 	// RGB values from each byte of data read
-	png_byte pixels[PIXEL_COUNT][3];
+	// png_byte pixels[PIXEL_COUNT][3]; causes stack overflow
+	png_byte (*pixels)[3] = malloc(sizeof(png_byte[PIXEL_COUNT][3]));
+
 
 	png_bytepp image = (png_byte**) malloc(sizeof(png_bytep) * IMAGE_HEIGHT);
 	if (!image)
@@ -37,18 +37,18 @@ void encode(void)
 	char image_name[16];
 	while (pixelsNeeded > 0)
 	{
-		bzero(pixels, sizeof(pixels));
+		bzero(pixels, PIXEL_COUNT * 3);
 		for (y = 0; y < IMAGE_HEIGHT; y++)
 			bzero(image[y], IMAGE_WIDTH * 3);
 		//first loop only, assign header info to pixels array
 		if (!loops)
 		{
 			memcpy(pixels, f2i.header, HEADERSIZE);
-			read(f2i.fd, pixels + (HEADERSIZE / 3), sizeof(pixels) - HEADERSIZE);
+			read(f2i.fd, pixels + (HEADERSIZE / 3), (PIXEL_COUNT * 3) - HEADERSIZE);
 		}
 		else
 		{
-			read(f2i.fd, pixels, sizeof(pixels));
+			read(f2i.fd, pixels, PIXEL_COUNT * 3);
 		}
 		int x = 0; //position in image array
 		y = 0;
@@ -76,6 +76,8 @@ void encode(void)
 		create_png(image, image_name);
 		printf("Success: created %s\n", image_name);
 	}
+	free(pixels);
+	pixels = NULL;
 	for (y = 0; y < IMAGE_HEIGHT; y++)
 	{
 		free(image[y]);
