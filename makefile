@@ -8,7 +8,8 @@
 BIN = File2Image
 CC = clang -Iinc
 CFLAG = -Wextra -Werror
-LIB = -lavcodec -lavformat -lswscale -lpng
+LIB = -lpng
+# LIB += -lavcodec -lavformat -lswscale
 OBJ_PATH = obj
 DEBUG = -Wall -g
 BUILD = -std=c99 -pedantic -O2
@@ -22,6 +23,7 @@ SRC = main.c\
 			read_png.c\
 			run.c\
 			header.c\
+			video.c\
 			complete.c
 
 all: $(BIN)
