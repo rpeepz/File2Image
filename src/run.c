@@ -7,6 +7,8 @@
 
 #include "File2Image.h"
 
+// TODO
+// FOUND BUG WHEN USING UHD RESOLUTION
 void encode(void)
 {
 	int y;
@@ -81,70 +83,6 @@ void encode(void)
 	}
 	free(image);
 	image = NULL;
-	//TODO
-	// create_video();
-
-/*
-	AVFormatContext *formatContext = avformat_alloc_context();
-
-	avformat_alloc_output_context2(&formatContext, NULL, NULL, "a2.mp4");
-	AVOutputFormat *outputFormat = formatContext->oformat;
-	AVCodec *codec = avcodec_find_encoder(outputFormat->video_codec);
-	AVStream *stream = avformat_new_stream(formatContext, codec);
-
-	AVCodecContext *codecContext = avcodec_alloc_context3(codec);
-	codecContext->codec_id = outputFormat->video_codec;
-	codecContext->codec_type = AVMEDIA_TYPE_VIDEO;
-	codecContext->width = WIDTH;
-	codecContext->height = HEIGHT;
-	codecContext->time_base = (AVRational){1, 25};
-	codecContext->pix_fmt = AV_PIX_FMT_YUV420P;
-	avcodec_open2(codecContext, codec, NULL);
-
-	struct SwsContext *swsContext = sws_getContext(WIDTH, HEIGHT, AV_PIX_FMT_RGB24, codecContext->width, codecContext->height, codecContext->pix_fmt, SWS_BICUBIC, NULL, NULL, NULL);
-	AVFrame *frame = av_frame_alloc();
-	frame->width = codecContext->width;
-	frame->height = codecContext->height;
-	frame->format = codecContext->pix_fmt;
-	// av_image_alloc(frame->data, frame->linesize, codecContext->width, codecContext->height, codecContext->pix_fmt, 32);
-
-	AVPacket packet;
-	av_init_packet(&packet);
-	packet.data = NULL;
-	packet.size = 0;
-	int frameNumber = 0;
-
-	int numImages = 1;
-	for (int i = 0; i < numImages; i++) {
-		// Load the image from file
-		// ...
-
-		// Convert the image to the video format
-		uint8_t *data[1] = {image};
-		int linesize[1] = {3 * WIDTH};
-		sws_scale(swsContext, data, linesize, 0, HEIGHT, frame->data, frame->linesize);
-
-		// Set the frame properties
-		frame->pts = frameNumber++;
-
-		// Encode the frame and write it to the output file
-		int gotPacket;
-		// avcodec_encode_video2(codecContext, &packet, frame, &gotPacket);
-		if (gotPacket) {
-			av_packet_rescale_ts(&packet, codecContext->time_base, stream->time_base);
-			packet.stream_index = stream->index;
-			av_write_frame(formatContext, &packet);
-			av_packet_unref(&packet);
-		}
-	}
-	av_write_trailer(formatContext);
-	avcodec_close(codecContext);
-	av_free(frame->data[0]);
-	av_frame_free(&frame);
-	avio_close(formatContext->pb);
-	avformat_free_context(formatContext);
-	sws_freeContext(swsContext);
-*/
 }
 
 static int get_fd(char **file_name, png_bytepp image)
@@ -155,6 +93,7 @@ static int get_fd(char **file_name, png_bytepp image)
 		int error = errno;
 		if (!strcmp(strerror(error), "File exists"))
 		{
+			// TODO overwrite or make a copy, currenty only makes a copy
 			printf("[%s]: %s. Overwrite? [y / n]: ", *file_name, strerror(error));
 	    fflush(stdout);
 			int buf = getchar();
