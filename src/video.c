@@ -86,3 +86,25 @@ void map_video_to_image(void)
   // TODO
   // utilize vframe option when outputting multiple files from the video
 }
+
+// TODO
+void  transform_file_to_video(void)
+{
+  // 1 create temporary directory
+  // 2 encode();
+  // 2.1 save file(s) from function call in directory
+  // 3 convert_image_to_video();
+  // 4 delete directory
+  return ;
+}
+
+// TODO
+void  revert_video_to_file(void)
+{
+  // 1 create temporary directory
+  // 2 map_video_to_image();
+  // 2.1 save file(s) from function call in directory
+  // 3 decode();
+  // 4 delete directory
+  return ;
+}
