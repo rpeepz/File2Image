@@ -1,0 +1,16 @@
+name: C/Build
+
+on: [push]
+
+jobs:      
+  job_build:
+    name: ft_ssl
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: build
+      run: |
+        make
+        make clean
+    - name: list_commands
+      run: ./File2Image -v
