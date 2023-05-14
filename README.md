@@ -1,4 +1,6 @@
-# File2Image
+# File2Image [![C/Build](https://github.com/rpeepz/File2Image/actions/workflows/cbuild.yml/badge.svg)](https://github.com/rpeepz/File2Image/actions/workflows/cbuild.yml)[![GitHub release](https://img.shields.io/github/v/release/rpeepz/File2Image?&include_prereleases)](https://github.com/rpeepz/File2Image/releases)[![GitHub All Releases](https://img.shields.io/github/downloads/rpeepz/File2Image/total.svg)](https://github.com/rpeepz/File2Image/releases/download/v1.1.1/File2Image)[![Github Code Size](https://img.shields.io/github/languages/code-size/rpeepz/File2Image)](https://github.com/rpeepz/File2Image)[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)[![Twitter Follow](https://img.shields.io/twitter/follow/papagna94.svg?style=social&label=Follow)](https://twitter.com/papagna94)
+
+
 A program I wrote to convert a given file to a series of images
 filled with pixels which represent the data from that file.
 
