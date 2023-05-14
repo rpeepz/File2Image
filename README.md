@@ -63,7 +63,8 @@ Executable `File2Image` will be created
 <br>
 
 ## Dependencies  
-* [libpng][libpng]
+* FFmpeg - [Website][FFmpeg.org] / [Homebrew][FFmpeg.brew]
+* libpng - [Website][libpng.org] / [Homebrew][libpng.brew]
 * A C language compiler most common would be GCC or Clang.
 * Cmake to run the custom Makefile for fast instalation.
 * Code was written to run on Unix based systems, it would likely work on a windows machine too but is currently untested. 
@@ -89,5 +90,8 @@ You can find me on:
 
 _This project was attempted for learning purposes only. This repo may not be kept up to date and I cannot guarantee that it will work on your future machines. You are welcome to use and learn from this as you want, but do not implement code that you do not understand. These sources listed above have been invaluable and I advise you to do research on the subject before trying to copy the code you see here._
 
-[libpng]: http://www.libpng.org/pub/png/libpng.html "libpng"
+[libpng.org]: http://www.libpng.org/pub/png/libpng.html "libpng.org"
+[libpng.brew]: https://formulae.brew.sh/formula/libpng "libpng brew"
+[FFmpeg.org]: https://ffmpeg.org "FFmpeg.org"
+[FFmpeg.brew]: https://formulae.brew.sh/formula/ffmpeg "FFmpeg brew"
 [pull request]: https://github.com/rpeepz/File2Image/pulls "pull away"
