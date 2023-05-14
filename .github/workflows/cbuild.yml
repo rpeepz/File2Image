@@ -4,7 +4,7 @@ on: [push]
 
 jobs:      
   job_build:
-    name: ft_ssl
+    name: File2Image Build
     runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v1
